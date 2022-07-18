@@ -9,11 +9,11 @@ export function reactive(target) {
         https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Proxy */
     return new Proxy(target, {
         get(target, key, receiver) {
-            return target[key]
+            return Reflect.get(target, key, receiver)
         },
         set(target, key, value, receiver) {
             target[key] = value
-            return true
+            return Reflect.set(target, key, value, receiver)
         }
     })
 }
