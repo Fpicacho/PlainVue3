@@ -1,0 +1,14 @@
+{
+  "name": "@vue/shared",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "F_picacho",
+  "buildOptions": {
+    "name": "VueShared",
+    "formats": [
+      "cjs",
+      "esm-bundler"
+    ]
+  }
+}
