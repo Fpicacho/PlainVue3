@@ -28,7 +28,7 @@ var VueReactivity = (() => {
     return typeof value === "object" && value !== null;
   };
 
-  // packages/reactivity/src/index.ts
+  // packages/reactivity/src/reactive.ts
   function reactive(target) {
     if (!isObject(target)) {
       throw new TypeError(`\u76EE\u6807${target}\u7C7B\u578B\u4E0D\u4E3A\u5BF9\u8C61!`);

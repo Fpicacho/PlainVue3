@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>reactive测试用例</title>
+</head>
+<body>
+
+<script src="./reactivity.global.js"></script>
+<script>
+    const {reactive} = VueReactivity
+    const state = reactive({
+        name: "F_picacho",
+        age: 18,
+        get nextAge() {
+            return this.age + 1
+        }
+    })
+    console.log(state)
+</script>
+</body>
+</html>
