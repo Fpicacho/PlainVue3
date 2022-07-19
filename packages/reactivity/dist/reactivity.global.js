@@ -28,6 +28,19 @@ var VueReactivity = (() => {
     return typeof value === "object" && value !== null;
   };
 
+  // packages/reactivity/src/baseHandler.ts
+  var mutableHandlers = {
+    get(target, key, receiver) {
+      if (key === "__v_isReactive" /* IS_REACTIVE */) {
+        return true;
+      }
+      return Reflect.get(target, key, receiver);
+    },
+    set(target, key, value, receiver) {
+      return Reflect.set(target, key, value, receiver);
+    }
+  };
+
   // packages/reactivity/src/reactive.ts
   var reactiveMap = /* @__PURE__ */ new WeakMap();
   function reactive(target) {
@@ -41,18 +54,7 @@ var VueReactivity = (() => {
     if (existingProxy) {
       return existingProxy;
     }
-    const proxy = new Proxy(target, {
-      get(target2, key, receiver) {
-        if (key === "__v_isReactive" /* IS_REACTIVE */) {
-          return true;
-        }
-        console.log(1);
-        return Reflect.get(target2, key, receiver);
-      },
-      set(target2, key, value, receiver) {
-        return Reflect.set(target2, key, value, receiver);
-      }
-    });
+    const proxy = new Proxy(target, mutableHandlers);
     reactiveMap.set(target, proxy);
     return proxy;
   }
