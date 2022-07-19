@@ -1,6 +1,8 @@
-import {ReactiveFlags} from "./reactive";
-
 // 代理核心逻辑
+export const enum ReactiveFlags {
+    IS_REACTIVE = '__v_isReactive'
+}
+
 export const mutableHandlers = {
     /*  new Proxy(代理目标,代理行为)
     https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Proxy */

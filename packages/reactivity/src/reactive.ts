@@ -1,10 +1,7 @@
 import {isObject} from '@vue/shared'
-import {mutableHandlers} from './baseHandler'
+import {mutableHandlers,ReactiveFlags} from './baseHandler'
 
 const reactiveMap = new WeakMap(); // 弱引用版本的Map Key只能是对象 用于解决潜在的内存泄露问题
-export const enum ReactiveFlags {
-    IS_REACTIVE = '__v_isReactive'
-}
 
 export function reactive(target) {
     // reactive:将数据转换为响应式
