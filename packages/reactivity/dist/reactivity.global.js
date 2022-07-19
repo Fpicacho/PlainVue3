@@ -29,19 +29,32 @@ var VueReactivity = (() => {
   };
 
   // packages/reactivity/src/reactive.ts
+  var reactiveMap = /* @__PURE__ */ new WeakMap();
   function reactive(target) {
     if (!isObject(target)) {
-      throw new TypeError(`\u76EE\u6807${target}\u7C7B\u578B\u4E0D\u4E3A\u5BF9\u8C61!`);
+      throw new TypeError(`\u76EE\u6807${target}\u7C7B\u578B\u4E0D\u4E3Aobject!`);
     }
-    return new Proxy(target, {
+    if (target["__v_isReactive" /* IS_REACTIVE */]) {
+      return target;
+    }
+    let existingProxy = reactiveMap.get(target);
+    if (existingProxy) {
+      return existingProxy;
+    }
+    const proxy = new Proxy(target, {
       get(target2, key, receiver) {
+        if (key === "__v_isReactive" /* IS_REACTIVE */) {
+          return true;
+        }
+        console.log(1);
         return Reflect.get(target2, key, receiver);
       },
       set(target2, key, value, receiver) {
-        target2[key] = value;
         return Reflect.set(target2, key, value, receiver);
       }
     });
+    reactiveMap.set(target, proxy);
+    return proxy;
   }
   return __toCommonJS(src_exports);
 })();
