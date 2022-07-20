@@ -12,7 +12,7 @@ export function reactive(target) {
   if (target[ReactiveFlags.IS_REACTIVE]) {
     return target;
   }
-  // 利用reactiveMap进行缓存 防止一个对象
+  // 利用reactiveMap进行缓存 防止一个对象被代理多次
   let existingProxy = reactiveMap.get(target);
   if (existingProxy) {
     return existingProxy;
