@@ -5,23 +5,21 @@
     <title>reactive测试用例</title>
 </head>
 <body>
+<div id="App">
 
+</div>
+
+</body>
 <script src="./reactivity.global.js"></script>
 <script>
-    const {reactive} = VueReactivity
-    const target = {name: "F_picacho"}
-    const state1 = reactive(target)
-    const state2 = reactive(state1)
+    const {reactive, effect} = VueReactivity
     const state = reactive({
         name: "F_picacho",
         age: 18,
-        get nextAge() {
-            return this.age + 1
-        }
     })
-    console.log(state)
-    console.log(state.nextAge)
-    console.log(state2)
+    effect(() => {
+        App.innerHTML = `<p>我的名字${state.name},年龄:${state.age}</p>`
+    })
+    state.name
 </script>
-</body>
 </html>
