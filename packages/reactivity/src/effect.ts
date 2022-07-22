@@ -46,7 +46,16 @@ export function track(target, type, key) {
   let shouldTrack = !dep.has(activeEffect);
   if (shouldTrack) {
     dep.add(activeEffect);
-    debugger
     activeEffect.deps.push(dep);
   }
+}
+
+export function trigger(target, type, key, value, oldValue) {
+  const depsMap = targetMap.get(target);
+  if (!depsMap) return; //触发的值没有存在于模板
+  const effects = depsMap.get(key); //找到属性对于的effect
+  effects &&
+    effects.forEach((effects) => {
+      if (effect !== activeEffect) effects.run();
+    });
 }

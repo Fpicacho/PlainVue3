@@ -72,9 +72,18 @@ var VueReactivity = (() => {
     let shouldTrack = !dep.has(activeEffect);
     if (shouldTrack) {
       dep.add(activeEffect);
-      debugger;
       activeEffect.deps.push(dep);
     }
+  }
+  function trigger(target, type, key, value, oldValue) {
+    const depsMap = targetMap.get(target);
+    if (!depsMap)
+      return;
+    const effects = depsMap.get(key);
+    effects && effects.forEach((effects2) => {
+      if (effect !== activeEffect)
+        effects2.run();
+    });
   }
 
   // packages/reactivity/src/baseHandler.ts
@@ -87,7 +96,12 @@ var VueReactivity = (() => {
       return Reflect.get(target, key, receiver);
     },
     set(target, key, value, receiver) {
-      return Reflect.set(target, key, value, receiver);
+      let oldValue = target[key];
+      let result = Reflect.set(target, key, value, receiver);
+      if (oldValue !== value) {
+        trigger(target, "set", key, value, oldValue);
+      }
+      return result;
     }
   };
 
