@@ -1,5 +1,5 @@
 // 代理核心逻辑
-import { activeEffect, track } from "./effect";
+import { track } from "./effect";
 
 export const enum ReactiveFlags {
   IS_REACTIVE = "__v_isReactive",
@@ -12,8 +12,7 @@ export const mutableHandlers = {
     if (key === ReactiveFlags.IS_REACTIVE) {
       return true;
     }
-    track(target, "get", key);
-    // 这里监控用户进行取值操作
+    track(target,'get',key)
     return Reflect.get(target, key, receiver);
   },
   set(target, key, value, receiver) {

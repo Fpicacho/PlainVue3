@@ -35,6 +35,7 @@ var VueReactivity = (() => {
     constructor(fn) {
       this.fn = fn;
       this.active = true;
+      this.deps = [];
       this.parent = null;
       this.fn = fn;
     }
@@ -51,18 +52,29 @@ var VueReactivity = (() => {
         this.parent = null;
       }
     }
-    stop() {
-      this.active = false;
-    }
   };
   function effect(fn) {
     const _effect = new ReactiveEffect(fn);
     _effect.run();
   }
+  var targetMap = /* @__PURE__ */ new WeakMap();
   function track(target, type, key) {
     if (!activeEffect)
       return;
-    debugger;
+    let depsMap = targetMap.get(target);
+    if (!depsMap) {
+      targetMap.set(target, depsMap = /* @__PURE__ */ new Map());
+    }
+    let dep = depsMap.get(key);
+    if (!dep) {
+      depsMap.set(key, dep = /* @__PURE__ */ new Set());
+    }
+    let shouldTrack = !dep.has(activeEffect);
+    if (shouldTrack) {
+      dep.add(activeEffect);
+      debugger;
+      activeEffect.deps.push(dep);
+    }
   }
 
   // packages/reactivity/src/baseHandler.ts

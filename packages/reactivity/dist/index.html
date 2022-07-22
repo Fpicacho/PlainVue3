@@ -16,9 +16,15 @@
     const state = reactive({
         name: "F_picacho",
         age: 18,
+        add:"123000"
     })
     effect(() => {
         App.innerHTML = `<p>我的名字${state.name},年龄:${state.age}</p>`
+        effect(()=>{
+            console.log(`${state.name} ${state.add}`)
+        })
+        console.log(state.name)
+        console.log(state.add)
     })
     state.name
 </script>

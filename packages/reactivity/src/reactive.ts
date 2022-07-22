@@ -1,6 +1,5 @@
 import { isObject } from "@vue/shared";
 import { mutableHandlers, ReactiveFlags } from "./baseHandler";
-import { activeEffect } from "./effect";
 
 const reactiveMap = new WeakMap(); // 弱引用版本的Map Key只能是对象 用于解决潜在的内存泄露问题
 
